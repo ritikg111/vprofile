@@ -22,8 +22,8 @@ spec:
           env:
             - name: MY_SQL_ROOT_PASSWORD
               valueFrom:
-                secretKeyReference:
-                - name: app-secret
+                secretKeyRef:
+                  name: app-secret
                   key: mysql_root_password
           volumeMounts:
             - name: vprodb-vol
@@ -33,11 +33,11 @@ spec:
       volumes:
         - name: vprodb-vol
           awsElasticBlockStore:
-            volumeId: vol-0e7f30a3cb2cb55e8
+            volumeID: vol-0e7f30a3cb2cb55e8
             fsType: ext4
       initContainers:
         - name: busybox
-          image:busybox: latest
+          image: busybox:latest
           args: ["rm" , "-rf" , "/var/lib/mysql/lost+found"]
           volumeMounts:
             - name: vprodb-vol
