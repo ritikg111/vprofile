@@ -21,8 +21,8 @@ spec:
               containerPort: 3306
           env:
             - name: MY_SQL_ROOT_PASSWORD
-            valueFrom:
-              secretKeyReference:
+              valueFrom:
+                secretKeyReference:
                 - name: app-secret
                   key: mysql_root_password
           volumeMounts:
