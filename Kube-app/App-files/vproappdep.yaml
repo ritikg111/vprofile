@@ -1,7 +1,8 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vproapp
+  name: app-deploy
 spec:
   replicas: 1
   selector:
@@ -13,10 +14,10 @@ spec:
         app: vproapp
     spec:
       containers:
-        - name: vproapp
+        - name: app-container
           image: ritikgoel/vprofile-app
           ports:
-            - name: vproapp-port
+            - name: app-port
               containerPort: 8080
       initContainers:
         - name: init-mydb

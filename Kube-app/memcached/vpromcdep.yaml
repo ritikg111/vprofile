@@ -1,7 +1,8 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vpromc
+  name: mc-deploy
 spec:
   replicas: 1
   selector:
@@ -13,7 +14,7 @@ spec:
         app: vpromc
     spec:
       containers:
-        - name: vpromc
+        - name: mc-container
           image: memcached
           ports:
             - name: mc-port

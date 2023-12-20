@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -5,8 +6,8 @@ metadata:
 spec:
   ports:
     - port: 15672
-      targetPort: mq-port
+      targetPort: rmq-port
       protocol: TCP
   selector:
-    app: vpromq
+    app: vprormq
   type: ClusterIP

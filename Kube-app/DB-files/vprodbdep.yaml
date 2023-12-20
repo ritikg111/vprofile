@@ -1,7 +1,8 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: db-dep
+  name: db-deploy
 spec:
   replicas: 1
   selector:
@@ -9,36 +10,36 @@ spec:
       app: vprodb
   template:
     metadata:
-      name: db-pod
       labels:
         app: vprodb
     spec:
       containers:
-        - name: vprodb
+        - name: db-container
           image: ritikgoel/vprofile-db
           ports:
             - name: db-port
               containerPort: 3306
           env:
-            - name: MY_SQL_ROOT_PASSWORD
+            - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: app-secret
-                  key: mysql_root_password
+                  name: secret-map
+                  key: mysql_root_pass
           volumeMounts:
-            - name: vprodb-vol
+            - name: dbvol
               mountPath: /var/lib/mysql
       nodeSelector:
         zone: us-east-1a
       volumes:
-        - name: vprodb-vol
+        - name: dbvol
           awsElasticBlockStore:
-            volumeID: vol-0e7f30a3cb2cb55e8
+            volumeID: vol-019206f206619a7ad
             fsType: ext4
-      initContainers:
+      initContainers:   #First this will run ,then the main container
         - name: busybox
           image: busybox:latest
-          args: ["rm" , "-rf" , "/var/lib/mysql/lost+found"]
+          args: ["rm" , "-rf" , "/var/lib/mysql/lost+found"]  #los+found was created due to ext4 formatting 
           volumeMounts:
-            - name: vprodb-vol
+            - name: dbvol
               mountPath: /var/lib/mysql
+
